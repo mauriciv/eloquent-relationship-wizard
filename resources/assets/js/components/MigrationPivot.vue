@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-red flex p-3 flex-col items-center rounded">
+    <div class="bg-purple flex p-3 flex-col items-center rounded">
         <span class="text-white mb-3" v-if="fileName">{{ fileName }}.php</span>
         <pre class="rounded bg-grey-light p-3"><code><?php
 
@@ -37,34 +37,28 @@ class {{ className }} extends Migration
             parent: String,
             child: String,
             relationship: String,
+            parentTableName: String,
+            childTableName: String,
         },
         computed: {
             className() {
-                return `Create${_.capitalize(pluralize(this.parent))}Table`;
+                let words = this.tableName.split('_');
+                let className = _.capitalize(words[0]) + _.capitalize(words[1]);
+                return `Create${className}Table`;
             },
             fileName() {
                 if (!this.parent) return '';
                 return moment().format('YYYY_MM_DD_kkmmss') + `_create_${this.tableName}_table`;
             },
             tableName() {
-                // author < book
                 if (this.parent <= this.child) {
-                    return this.parent + "_" + this.child;
+                    return this.parent + '_' + this.child;
                 }
-                    return this.child + "_" + this.parent;
-            },
-            parentTableName() {
-                return pluralize(this.parent);
-            },
-            childTableName() {
-                return pluralize(this.child);
+                return this.child + '_' + this.parent;
             },
             childClassName() {
                 return _.capitalize(this.child);
             },
-            primaryKeyName() {
-
-            }
         },
     }
 </script>

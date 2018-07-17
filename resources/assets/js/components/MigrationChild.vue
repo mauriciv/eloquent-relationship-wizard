@@ -36,11 +36,11 @@ class {{ className }} extends Migration
         },
         computed: {
             className() {
-                return `Create${_.capitalize(pluralize(this.child))}Table`;
+                return `Create${_.capitalize(this.tableName)}Table`;
             },
             fileName() {
                 if (!this.child) return '';
-                return moment().format('YYYY_MM_DD_kkmmss') + `_create_${pluralize(this.child)}_table`;
+                return moment().format('YYYY_MM_DD_kkmmss') + `_create_${this.tableName}_table`;
             },
             tableName() {
                 return pluralize(this.child);

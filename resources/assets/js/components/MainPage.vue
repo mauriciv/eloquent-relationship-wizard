@@ -21,14 +21,7 @@
                 <code class="m-1" v-text="parentText"></code>
             </div>
         </div>
-        <div class="flex flex-col items-center mt-5">
-            <span class="text-xl mb-3 font-bold">Migrations</span>
-            <div class="flex text-sm">
-                <migration-parent class="m-1" :relationship="relationship" :parent="parent" :child="child"></migration-parent>
-                <migration-child class="m-1" :relationship="relationship" :parent="parent" :child="child"></migration-child>
-            </div>
-            <migration-pivot v-if="relationship === 'many to many'" class="m-1" :relationship="relationship" :parent="parent" :child="child"></migration-pivot>
-        </div>
+        <migration-tables class="m-1" :relationship="relationship" :parent="parent" :child="child"></migration-tables>
         <div class="flex flex-col items-center mt-5">
             <span class="text-xl mb-3 font-bold">Eloquent Models</span>
             <div class="flex">
@@ -42,12 +35,10 @@
 <script>
     import EloquentModelParent from './EloquentModelParent';
     import EloquentModelChild from './EloquentModelChild';
-    import MigrationParent from './MigrationParent';
-    import MigrationChild from './MigrationChild';
-    import MigrationPivot from './MigrationPivot';
+    import MigrationTables from './MigrationTables';
     import a from 'indefinite';
     export default {
-        components:{EloquentModelParent, EloquentModelChild, MigrationParent, MigrationChild, MigrationPivot},
+        components:{ EloquentModelParent, EloquentModelChild, MigrationTables },
         data() {
             return {
                 parent: '',
