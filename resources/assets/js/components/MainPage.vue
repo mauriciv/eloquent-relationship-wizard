@@ -2,8 +2,8 @@
     <div class="rounded">
         <div class="flex flex-col p-3 text-lg">
             <div class="flex justify-center">
-                <span class="m-1">{{ indefiniteArticle }}</span>
-                <input class="m-1 rounded" type="text" placeholder="parent" v-model="parent">
+                <span class="m-1" dusk="parent-indefinite-article">{{ parentIndefiniteArticle }}</span>
+                <input class="m-1 rounded" type="text" placeholder="parent" v-model="parent" dusk="parent-input">
                 <select class="m-1 bg-white rounded" v-model="has">
                     <option value="one">has one</option>
                     <option value="many">has many</option>
@@ -11,8 +11,9 @@
                 <code class="m-1" v-text="childText"></code>
             </div>
             <div class="flex justify-center">
-                <span class="m-1">and a</span>
-                <input class="m-1 rounded" type="text" placeholder="child" v-model="child">
+                <span class="m-1">and</span>
+                <span class="m-1" dusk="child-indefinite-article">{{ childIndefiniteArticle }}</span>
+                <input class="m-1 rounded" type="text" placeholder="child" v-model="child" dusk="child-input">
                 <span class="m-1" v-if="has === 'one'">belongs to one</span>
                 <select class="m-1 bg-white rounded" v-if="has == 'many'" v-model="belongsTo">
                     <option value="one">belongs to one</option>
@@ -33,41 +34,45 @@
 </template>
 
 <script>
-    import EloquentModelParent from './EloquentModelParent';
-    import EloquentModelChild from './EloquentModelChild';
-    import MigrationTables from './MigrationTables';
-    import a from 'indefinite';
-    export default {
-        components:{ EloquentModelParent, EloquentModelChild, MigrationTables },
-        data() {
-            return {
-                parent: '',
-                child: '',
-                has: 'one',
-                belongsTo: 'one'
+import EloquentModelParent from "./EloquentModelParent";
+import EloquentModelChild from "./EloquentModelChild";
+import MigrationTables from "./MigrationTables";
+import a from "indefinite";
+export default {
+    components: { EloquentModelParent, EloquentModelChild, MigrationTables },
+    data() {
+        return {
+            parent: "",
+            child: "",
+            has: "one",
+            belongsTo: "one"
+        };
+    },
+    computed: {
+        childText() {
+            if (this.has === "one") {
+                return this.child;
             }
+            return pluralize(this.child);
         },
-        computed: {
-            childText() {
-                if (this.has === 'one') {
-                    return this.child;
-                }
-                return pluralize(this.child);
-            },
-            parentText() {
-                if (this.belongsTo === 'one') {
-                    return this.parent;
-                }
-                return pluralize(this.parent);
-            },
-            relationship() {
-                if (this.has == 'one') return 'one to one';
-                if (this.has == 'many' && this.belongsTo == 'one') return 'one to many';
-                return 'many to many';
-            },
-            indefiniteArticle() {
-                return a(this.parent, {capitalize: true}).split(' ')[0];
+        parentText() {
+            if (this.belongsTo === "one") {
+                return this.parent;
             }
+            return pluralize(this.parent);
+        },
+        relationship() {
+            if (this.has == "one") return "one to one";
+            if (this.has == "many" && this.belongsTo == "one")
+                return "one to many";
+            return "many to many";
+        },
+        parentIndefiniteArticle() {
+            return a(this.parent, { capitalize: true }).split(" ")[0];
+        },
+        childIndefiniteArticle() {
+            return a(this.child, { capitalize: false }).split(" ")[0];
         }
     }
+};
 </script>
